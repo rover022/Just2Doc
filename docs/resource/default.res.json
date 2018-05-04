@@ -1,0 +1,16 @@
+{
+	"groups": [
+		{
+			"keys": "wenzi_json",
+			"name": "preload"
+		}
+	],
+	"resources": [
+		 
+		{
+			"name": "wenzi_json",
+			"type": "json",
+			"url": "config/wenzi.json"
+		}
+	]
+}
