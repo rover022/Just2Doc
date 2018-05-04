@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="cab3f93c-568c-4019-9ea7-efb9385c55ce" name="myftp" url="http://rover022.0078.bftii.com ">
+        <fileTransfer host="ftp.6r3u4ganeri4u9j2.nipaiyi.com" port="84">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="84" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
