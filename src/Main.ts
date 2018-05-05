@@ -29,7 +29,10 @@
 
 import stage = egret.lifecycle.stage;
 
+declare function playsound(sound, loop);
+
 class Main extends egret.DisplayObjectContainer {
+
 
     /**
      * 加载进度界面
@@ -157,23 +160,28 @@ class Main extends egret.DisplayObjectContainer {
         sprite.y = 40;
         sprite.touchEnabled = true;
         sprite.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
-            this.isSound = !this.isSound;
-            if (this.isSound == false) {
-                sprite.rotation = 0;
-                // this.gameSound.close();
-                if (chanl) {
-                    chanl.volume = 0;
-                }
-
-            } else {
-                // this.gameSound.play();
-                if (this.gameSound == null) {
-                    this.gameSound = RES.getRes("demo_mp3");
-                    // this.gameSound.play(0, -1);
-                    chanl = this.gameSound.play(0, -1);
-                }
-                chanl.volume = 1;
-            }
+            return;
+            // this.isSound = !this.isSound;
+            // if (this.isSound == false) {
+            //     sprite.rotation = 0;
+            //     // this.gameSound.close();
+            //     if (chanl) {
+            //         chanl.volume = 0;
+            //     }
+            //
+            // } else {
+            //     // this.gameSound.play();
+            //     if (this.gameSound == null) {
+            //         let nullSound: egret.Sound = RES.getRes("demo_mp3");
+            //         playsound(nullSound, false);
+            //
+            //         //this.gameSound = RES.getRes("demo_mp3");
+            //         // this.gameSound.play(0, -1);
+            //         //chanl = this.gameSound.play(0, -1);
+            //     }
+            //     // chanl.volume = 1;
+            //
+            // }
         }, this);
         this.addEventListener(egret.Event.ENTER_FRAME, () => {
             if (this.isSound) {
@@ -187,9 +195,12 @@ class Main extends egret.DisplayObjectContainer {
         // this.gameSound = RES.getRes("demo_mp3");
         // this.gameSound.play(0, -1);
         //chanl = this.gameSound.play(0, -1);
+        let nullSound: egret.Sound = RES.getRes("demo_mp3");
+        // nullSound.play();
+        playsound(nullSound, false);
     }
 
-    isSound: boolean = false;
+    isSound: boolean = true;
     gameSound: egret.Sound;
 
 

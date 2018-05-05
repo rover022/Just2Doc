@@ -41,7 +41,7 @@ var Main = /** @class */ (function (_super) {
     __extends(Main, _super);
     function Main() {
         var _this = _super.call(this) || this;
-        _this.isSound = false;
+        _this.isSound = true;
         _this.gamecount = 0;
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
         return _this;
@@ -144,23 +144,28 @@ var Main = /** @class */ (function (_super) {
         sprite.y = 40;
         sprite.touchEnabled = true;
         sprite.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-            _this.isSound = !_this.isSound;
-            if (_this.isSound == false) {
-                sprite.rotation = 0;
-                // this.gameSound.close();
-                if (chanl) {
-                    chanl.volume = 0;
-                }
-            }
-            else {
-                // this.gameSound.play();
-                if (_this.gameSound == null) {
-                    _this.gameSound = RES.getRes("demo_mp3");
-                    // this.gameSound.play(0, -1);
-                    chanl = _this.gameSound.play(0, -1);
-                }
-                chanl.volume = 1;
-            }
+            return;
+            // this.isSound = !this.isSound;
+            // if (this.isSound == false) {
+            //     sprite.rotation = 0;
+            //     // this.gameSound.close();
+            //     if (chanl) {
+            //         chanl.volume = 0;
+            //     }
+            //
+            // } else {
+            //     // this.gameSound.play();
+            //     if (this.gameSound == null) {
+            //         let nullSound: egret.Sound = RES.getRes("demo_mp3");
+            //         playsound(nullSound, false);
+            //
+            //         //this.gameSound = RES.getRes("demo_mp3");
+            //         // this.gameSound.play(0, -1);
+            //         //chanl = this.gameSound.play(0, -1);
+            //     }
+            //     // chanl.volume = 1;
+            //
+            // }
         }, this);
         this.addEventListener(egret.Event.ENTER_FRAME, function () {
             if (_this.isSound) {
@@ -174,6 +179,9 @@ var Main = /** @class */ (function (_super) {
         // this.gameSound = RES.getRes("demo_mp3");
         // this.gameSound.play(0, -1);
         //chanl = this.gameSound.play(0, -1);
+        var nullSound = RES.getRes("demo_mp3");
+        // nullSound.play();
+        playsound(nullSound, false);
     };
     /**
      * 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。
