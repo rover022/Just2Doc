@@ -41,7 +41,7 @@ var Main = /** @class */ (function (_super) {
     __extends(Main, _super);
     function Main() {
         var _this = _super.call(this) || this;
-        _this.isSound = true;
+        _this.isSound = false;
         _this.gamecount = 0;
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
         return _this;
@@ -148,10 +148,17 @@ var Main = /** @class */ (function (_super) {
             if (_this.isSound == false) {
                 sprite.rotation = 0;
                 // this.gameSound.close();
-                chanl.volume = 0;
+                if (chanl) {
+                    chanl.volume = 0;
+                }
             }
             else {
                 // this.gameSound.play();
+                if (_this.gameSound == null) {
+                    _this.gameSound = RES.getRes("demo_mp3");
+                    // this.gameSound.play(0, -1);
+                    chanl = _this.gameSound.play(0, -1);
+                }
                 chanl.volume = 1;
             }
         }, this);
@@ -164,9 +171,9 @@ var Main = /** @class */ (function (_super) {
         }, this);
         //
         this.addChild(sprite);
-        this.gameSound = RES.getRes("demo_mp3");
+        // this.gameSound = RES.getRes("demo_mp3");
         // this.gameSound.play(0, -1);
-        chanl = this.gameSound.play(0, -1);
+        //chanl = this.gameSound.play(0, -1);
     };
     /**
      * 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。

@@ -161,9 +161,17 @@ class Main extends egret.DisplayObjectContainer {
             if (this.isSound == false) {
                 sprite.rotation = 0;
                 // this.gameSound.close();
-                chanl.volume = 0;
+                if (chanl) {
+                    chanl.volume = 0;
+                }
+
             } else {
                 // this.gameSound.play();
+                if (this.gameSound == null) {
+                    this.gameSound = RES.getRes("demo_mp3");
+                    // this.gameSound.play(0, -1);
+                    chanl = this.gameSound.play(0, -1);
+                }
                 chanl.volume = 1;
             }
         }, this);
@@ -176,12 +184,12 @@ class Main extends egret.DisplayObjectContainer {
         }, this);
         //
         this.addChild(sprite);
-        this.gameSound = RES.getRes("demo_mp3");
+        // this.gameSound = RES.getRes("demo_mp3");
         // this.gameSound.play(0, -1);
-        chanl = this.gameSound.play(0, -1);
+        //chanl = this.gameSound.play(0, -1);
     }
 
-    isSound: boolean = true;
+    isSound: boolean = false;
     gameSound: egret.Sound;
 
 
