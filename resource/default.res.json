@@ -1,16 +1,25 @@
 {
 	"groups": [
 		{
-			"keys": "wenzi_json",
+			"keys": "wenzi_json,music_png,demo_mp3",
 			"name": "preload"
 		}
 	],
 	"resources": [
-		 
 		{
 			"name": "wenzi_json",
 			"type": "json",
 			"url": "config/wenzi.json"
+		},
+		{
+			"name": "music_png",
+			"type": "image",
+			"url": "assets/music.png"
+		},
+		{
+			"name": "demo_mp3",
+			"type": "sound",
+			"url": "sound/demo.mp3"
 		}
 	]
 }

@@ -140,10 +140,50 @@ class Main extends egret.DisplayObjectContainer {
         //根据name关键字，异步获取一个json配置文件，name属性请参考resources/resource.json配置文件的内容。
         // Get asynchronously a json configuration file according to name keyword. As for the property of name please refer to the configuration file of resources/resource.json.
 
+        this.mygroup = new egret.Sprite();
+        //this.mygroup.alpha = 0;
+        this.addChild(this.mygroup);
+
+        let chanl: egret.SoundChannel;
 
         RES.getResAsync("wenzi_json", this.startAnimation, this);
         // RES.getResAsync("description_json", this.startAnimation, this);
+        let music_sprite = this.createBitmapByName("music_png");
+        let sprite = new egret.Sprite();
+        sprite.addChild(music_sprite);
+        sprite.anchorOffsetX = 33;
+        sprite.anchorOffsetY = 33;
+        sprite.x = this.stage.stageWidth - 40;
+        sprite.y = 40;
+        sprite.touchEnabled = true;
+        sprite.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
+            this.isSound = !this.isSound;
+            if (this.isSound == false) {
+                sprite.rotation = 0;
+                // this.gameSound.close();
+                chanl.volume = 0;
+            } else {
+                // this.gameSound.play();
+                chanl.volume = 1;
+            }
+        }, this);
+        this.addEventListener(egret.Event.ENTER_FRAME, () => {
+            if (this.isSound) {
+                sprite.rotation++;
+            } else {
+
+            }
+        }, this);
+        //
+        this.addChild(sprite);
+        this.gameSound = RES.getRes("demo_mp3");
+        // this.gameSound.play(0, -1);
+        chanl = this.gameSound.play(0, -1);
     }
+
+    isSound: boolean = true;
+    gameSound: egret.Sound;
+
 
     /**
      * 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。
@@ -171,13 +211,11 @@ class Main extends egret.DisplayObjectContainer {
 
         let textfield = this.textfield;
         let count = 0;
-        this.mygroup = new egret.Sprite();
-        this.addChild(this.mygroup);
+
         let b_y: number = 300;
         //
         let change = () => {
             count++;
-
 
 
             if (count >= textflowArr.length) {
@@ -195,11 +233,10 @@ class Main extends egret.DisplayObjectContainer {
             }
 
 
-
             let textFlow = textflowArr[count];
 
 
-            let colornum:number = parseInt(demodata[0]);
+            let colornum: number = parseInt(demodata[0]);
             this.mygroup.graphics.clear();
             this.mygroup.graphics.beginFill(colornum);
             this.mygroup.graphics.drawRect(0, 0, 1000, 1240);

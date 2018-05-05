@@ -26,9 +26,6 @@
 //  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 //////////////////////////////////////////////////////////////////////////////////////
-var __reflect = (this && this.__reflect) || function (p, c, t) {
-    p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
-};
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -40,10 +37,11 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 var stage = egret.lifecycle.stage;
-var Main = (function (_super) {
+var Main = /** @class */ (function (_super) {
     __extends(Main, _super);
     function Main() {
         var _this = _super.call(this) || this;
+        _this.isSound = true;
         _this.gamecount = 0;
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
         return _this;
@@ -130,8 +128,45 @@ var Main = (function (_super) {
     Main.prototype.createGameScene = function () {
         //根据name关键字，异步获取一个json配置文件，name属性请参考resources/resource.json配置文件的内容。
         // Get asynchronously a json configuration file according to name keyword. As for the property of name please refer to the configuration file of resources/resource.json.
+        var _this = this;
+        this.mygroup = new egret.Sprite();
+        //this.mygroup.alpha = 0;
+        this.addChild(this.mygroup);
+        var chanl;
         RES.getResAsync("wenzi_json", this.startAnimation, this);
         // RES.getResAsync("description_json", this.startAnimation, this);
+        var music_sprite = this.createBitmapByName("music_png");
+        var sprite = new egret.Sprite();
+        sprite.addChild(music_sprite);
+        sprite.anchorOffsetX = 33;
+        sprite.anchorOffsetY = 33;
+        sprite.x = this.stage.stageWidth - 40;
+        sprite.y = 40;
+        sprite.touchEnabled = true;
+        sprite.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+            _this.isSound = !_this.isSound;
+            if (_this.isSound == false) {
+                sprite.rotation = 0;
+                // this.gameSound.close();
+                chanl.volume = 0;
+            }
+            else {
+                // this.gameSound.play();
+                chanl.volume = 1;
+            }
+        }, this);
+        this.addEventListener(egret.Event.ENTER_FRAME, function () {
+            if (_this.isSound) {
+                sprite.rotation++;
+            }
+            else {
+            }
+        }, this);
+        //
+        this.addChild(sprite);
+        this.gameSound = RES.getRes("demo_mp3");
+        // this.gameSound.play(0, -1);
+        chanl = this.gameSound.play(0, -1);
     };
     /**
      * 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。
@@ -154,8 +189,6 @@ var Main = (function (_super) {
         var textflowArr = demodata.map(function (text) { return parser.parse(text); });
         var textfield = this.textfield;
         var count = 0;
-        this.mygroup = new egret.Sprite();
-        this.addChild(this.mygroup);
         var b_y = 300;
         //
         var change = function () {
@@ -206,5 +239,4 @@ var Main = (function (_super) {
     };
     return Main;
 }(egret.DisplayObjectContainer));
-__reflect(Main.prototype, "Main");
 //# sourceMappingURL=Main.js.map
