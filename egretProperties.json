@@ -21,10 +21,6 @@
     },
     {
       "name": "res"
-    },
-    {
-      "name": "promise",
-      "path": "./promise"
     }
   ]
 }
