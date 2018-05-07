@@ -37,6 +37,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 var stage = egret.lifecycle.stage;
+var StageScaleMode = egret.StageScaleMode;
 var Main = /** @class */ (function (_super) {
     __extends(Main, _super);
     function Main() {
@@ -130,7 +131,11 @@ var Main = /** @class */ (function (_super) {
         // Get asynchronously a json configuration file according to name keyword. As for the property of name please refer to the configuration file of resources/resource.json.
         var _this = this;
         this.mygroup = new egret.Sprite();
-        //this.mygroup.alpha = 0;
+        //this.mygroup.alpha = 0;640 1136
+        this.mygroup.graphics.beginFill(0xffffff, 0.1);
+        this.mygroup.graphics.drawRect(0, 0, 640, 1136);
+        this.mygroup.graphics.endFill();
+        this.stage.scaleMode = StageScaleMode.FIXED_WIDTH;
         this.addChild(this.mygroup);
         var chanl;
         RES.getResAsync("wenzi_json", this.startAnimation, this);
@@ -225,7 +230,7 @@ var Main = /** @class */ (function (_super) {
             var colornum = parseInt(demodata[0]);
             _this.mygroup.graphics.clear();
             _this.mygroup.graphics.beginFill(colornum);
-            _this.mygroup.graphics.drawRect(0, 0, 1000, 1240);
+            _this.mygroup.graphics.drawRect(0, 0, 1000, 1500);
             _this.mygroup.graphics.endFill();
             // 切换描述内容
             // Switch to described content

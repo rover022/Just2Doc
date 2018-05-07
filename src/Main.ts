@@ -28,6 +28,7 @@
 //////////////////////////////////////////////////////////////////////////////////////
 
 import stage = egret.lifecycle.stage;
+import StageScaleMode = egret.StageScaleMode;
 
 declare function playsound(sound, loop);
 
@@ -47,6 +48,7 @@ class Main extends egret.DisplayObjectContainer {
     }
 
     private onAddToStage(event: egret.Event) {
+
 
         egret.lifecycle.addLifecycleListener((context) => {
             // custom lifecycle plugin
@@ -144,7 +146,12 @@ class Main extends egret.DisplayObjectContainer {
         // Get asynchronously a json configuration file according to name keyword. As for the property of name please refer to the configuration file of resources/resource.json.
 
         this.mygroup = new egret.Sprite();
-        //this.mygroup.alpha = 0;
+        //this.mygroup.alpha = 0;640 1136
+        this.mygroup.graphics.beginFill(0xffffff, 0.1);
+        this.mygroup.graphics.drawRect(0, 0, 640, 1136);
+        this.mygroup.graphics.endFill();
+        this.stage.scaleMode = StageScaleMode.FIXED_WIDTH;
+
         this.addChild(this.mygroup);
 
         let chanl: egret.SoundChannel;
@@ -258,7 +265,7 @@ class Main extends egret.DisplayObjectContainer {
             let colornum: number = parseInt(demodata[0]);
             this.mygroup.graphics.clear();
             this.mygroup.graphics.beginFill(colornum);
-            this.mygroup.graphics.drawRect(0, 0, 1000, 1240);
+            this.mygroup.graphics.drawRect(0, 0, 1000, 1500);
             this.mygroup.graphics.endFill();
 
             // 切换描述内容
