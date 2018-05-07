@@ -150,27 +150,6 @@ var Main = /** @class */ (function (_super) {
         sprite.touchEnabled = true;
         sprite.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             return;
-            // this.isSound = !this.isSound;
-            // if (this.isSound == false) {
-            //     sprite.rotation = 0;
-            //     // this.gameSound.close();
-            //     if (chanl) {
-            //         chanl.volume = 0;
-            //     }
-            //
-            // } else {
-            //     // this.gameSound.play();
-            //     if (this.gameSound == null) {
-            //         let nullSound: egret.Sound = RES.getRes("demo_mp3");
-            //         playsound(nullSound, false);
-            //
-            //         //this.gameSound = RES.getRes("demo_mp3");
-            //         // this.gameSound.play(0, -1);
-            //         //chanl = this.gameSound.play(0, -1);
-            //     }
-            //     // chanl.volume = 1;
-            //
-            // }
         }, this);
         this.addEventListener(egret.Event.ENTER_FRAME, function () {
             if (_this.isSound) {
@@ -186,7 +165,8 @@ var Main = /** @class */ (function (_super) {
         //chanl = this.gameSound.play(0, -1);
         var nullSound = RES.getRes("demo_mp3");
         // nullSound.play();
-        playsound(nullSound, false);
+        var soundv = playsound(nullSound, false);
+        soundv.volume = 0.2;
     };
     /**
      * 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。
