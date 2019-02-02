@@ -14,7 +14,7 @@ var GameMain = /** @class */ (function () {
         Laya.stage.alignH = "left";
         Laya.stage.alignV = "top";
         //设置横竖屏
-        Laya.stage.screenMode = Laya.Stage.SCREEN_VERTICAL;
+        Laya.stage.screenMode = Laya.Stage.SCREEN_NONE;
         App.init();
         Laya.loader.load([
             { url: "res/config.json", type: Loader.TEXT },
