@@ -271,7 +271,7 @@ var MainScene = /** @class */ (function (_super) {
                     this.playWinOrLost("niyingle.sk");
                 }
                 if (data.last_prize < 0) {
-                    this.playWinOrLost("nishule.sk");
+                    //this.playWinOrLost("nishule.sk");
                 }
             }
             this.updatemoney(data.deposit);
