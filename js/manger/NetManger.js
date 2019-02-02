@@ -28,7 +28,9 @@ var NetManger = /** @class */ (function () {
         xhr.once(Laya.Event.COMPLETE, this, function (data) {
             if (callback) {
                 var data_obj = JSON.parse(data);
-                console.log("收:", data_obj);
+                if (MainScene.getOption("debug").length > 1) {
+                    console.log("收:", data_obj);
+                }
                 callback.call(_this, data_obj, arg);
             }
         });
@@ -44,7 +46,9 @@ var NetManger = /** @class */ (function () {
         data.api_token = App.dataManger.vo.api_token;
         var data_string = JSON.stringify(data);
         xhr.send(url, data_string, this.sendmode, responseType, ["content-type", "application/json;charset=UTF-8"]);
-        console.log("开始发送", url);
+        if (MainScene.getOption("debug").length > 1) {
+            console.log("开始发送", url);
+        }
     };
     return NetManger;
 }());

@@ -38,6 +38,8 @@ var Bag;
             this.txt_money = (this.getChild("txt_money"));
             this.talk_labe1 = (this.getChild("talk_labe1"));
             this.talk_tishi = (this.getChild("talk_tishi"));
+            this.txt_state = (this.getChild("txt_state"));
+            this.txt_res = (this.getChild("txt_res"));
             this.t0 = this.getTransition("t0");
             this.t1 = this.getTransition("t1");
         };

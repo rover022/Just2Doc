@@ -26,6 +26,11 @@ var MainScene = /** @class */ (function (_super) {
          * 游戏所有的游戏记录
          */
         _this.gamedata_list = {};
+        _this.gamereadly_list = {};
+        _this.gamebet_list = {};
+        _this.period_number = -1;
+        //下注池
+        _this.bet_pool = [];
         MainScene.scene = _this;
         return _this;
     }
@@ -34,7 +39,7 @@ var MainScene = /** @class */ (function (_super) {
         var v = Bag.Scene_Main.createInstance();
         this.initUI(v);
         this.initHeGuang();
-        this.playOtherBetAni();
+        // this.playOtherBetAni();
         this.view.btn_xiaozhu.onClick(this, function () {
             var m_w = new SceneSelfHistroy();
             App.show(m_w);
@@ -86,8 +91,10 @@ var MainScene = /** @class */ (function (_super) {
         }
         this.selectM = ~~bitarr[0];
         this.update();
-        this.displayListContainer.timer.loop(20000, this, this.updateGameState);
+        this.displayListContainer.timer.loop(5000, this, this.updateGameState);
         this.displayListContainer.timer.loop(1000, this, this.time_update);
+        this.displayListContainer.timer.loop(2000, this, this.play_update);
+        this.updateGameState();
         // this.initPlaySaizi([6, 6, 6]);
     };
     MainScene.prototype.playOtherBetAni = function (_name, bet) {
@@ -95,14 +102,30 @@ var MainScene = /** @class */ (function (_super) {
         if (bet === void 0) { bet = 100; }
         var s1 = "押注:那个" + _name + "下注了" + bet + ",长笑一声哈哈!";
         this.view.talk_labe1.title = s1;
-        // this.view.talk_labe1.t
         this.view.t0.play(null, 1);
     };
     MainScene.prototype.playTiShiBetAni = function (_context) {
         if (_context === void 0) { _context = "提示"; }
-        this.view.talk_labe1.title = _context;
-        // this.view.talk_labe1.t
-        this.view.t0.play(null, 1);
+        this.view.talk_tishi.title = _context;
+        this.view.t1.play(null, 1);
+    };
+    MainScene.prototype.play_update = function () {
+        // console.log("play_update", this.bet_pool.length);
+        if (this.bet_pool.length > 0) {
+            var vo = this.bet_pool.shift();
+            this.playOtherBetAni(vo.nickname, vo.bet_amount);
+        }
+    };
+    /**
+     * 清理数据
+     */
+    MainScene.prototype.clearDesk = function () {
+        this.saizi_sprite.removeChildren();
+        this.initdesk(this.view.btn_1, 0, 0);
+        this.initdesk(this.view.btn_2, 0, 0);
+        this.initdesk(this.view.btn_3, 0, 0);
+        this.initdesk(this.view.btn_4, 0, 0);
+        this.bet_pool = [];
     };
     /**
      * 给桌子加钱
@@ -117,13 +140,12 @@ var MainScene = /** @class */ (function (_super) {
             g_.data = 0;
             g_.getChild("txt_m").text = "0";
             g_.getChild("txt_n").text = "0";
+            return;
         }
         if (allnum != -1) {
             g_.getChild("txt_m").text = allnum.toString();
         }
         if (bet != -1) {
-            console.log(typeof g_.data);
-            console.log(typeof bet);
             g_.data = g_.data + bet;
             g_.getChild("txt_n").text = g_.data.toString();
         }
@@ -137,7 +159,7 @@ var MainScene = /** @class */ (function (_super) {
                 _this.playTiShiBetAni("金钱不够了 哥们!");
                 return;
             }
-            if (_this.game_state != 1) {
+            if (_this.game_state != 2) {
                 _this.playTiShiBetAni("没到下注状态 哥们!");
                 return;
             }
@@ -153,14 +175,7 @@ var MainScene = /** @class */ (function (_super) {
                     _this.update();
                 }
                 else {
-                    _this.playTiShiBetAni("下注时间过了 哥们!");
-                    // if (data.status == 0) {
-                    //     let _num = _arg[0];
-                    //     console.log("成功下注", _num, typeof _num);
-                    //     App.dataManger.vo.deposit -= _num;
-                    //     this.initdesk(btn, _num);
-                    //     this.update()
-                    // }
+                    _this.playTiShiBetAni(data.message);
                 }
             }, [_this.selectM]);
         });
@@ -185,25 +200,107 @@ var MainScene = /** @class */ (function (_super) {
      */
     MainScene.prototype.updateGameState = function () {
         var _this = this;
-        // App.netManger.send({}, App.dataManger.configvo.item_betList.url, (data: any) => {
-        //     this.updateBetListUI(data);
-        // });
-        App.netManger.send({}, App.dataManger.configvo.item_result.url, function (data) {
+        App.netManger.send({}, App.dataManger.configvo.item_betList.url, function (data) {
+            _this.updateBetListUI(data);
+        });
+        //
+        var m_obj = {};
+        if (this.period_number != -1) {
+            m_obj.period_number = this.period_number;
+        }
+        App.netManger.send(m_obj, App.dataManger.configvo.item_result.url, function (data) {
             // console.log("数据:", data);
             _this.updateResult(data);
         });
+    };
+    MainScene.prototype.updatemoney = function (src) {
+        App.dataManger.vo.deposit = src;
+        this.update();
     };
     /**
      * 更新游戏状态
      * @param data
      */
-    MainScene.prototype.updateResult = function (data) {
+    MainScene.prototype.updateResult = function (vo) {
+        if (vo.status != 0) {
+            this.playTiShiBetAni("游戏状态错误");
+            return;
+        }
+        var data = vo.data;
+        this.game_state = parseInt(data.state);
+        this.period_number = data.period_number;
+        this.view.txt_juhao.text = "第" + this.period_number + "局";
+        //
+        //
+        // console.log(data.state);
+        if (this.game_state == 1) {
+            console.log("准备状态");
+            // if (this.gamereadly_list[this.period_number] = null) {
+            //     this.gamereadly_list[this.period_number] = data;
+            // }
+            this.gametime = 0;
+            this.view.txt_state.text = "准备状态";
+        }
+        if (this.game_state == 2) {
+            //下注状态
+            // console.log("下注状态");
+            if (this.gamereadly_list[this.period_number] == null) {
+                this.gamereadly_list[this.period_number] = data;
+                this.gametime = data.rest_time;
+                this.playTiShiBetAni("下注开始");
+                this.view.txt_state.text = "下注状态";
+                this.view.txt_res.text = "";
+                this.clearDesk();
+            }
+        }
+        if (this.game_state == 3) {
+            //开奖状态
+            // console.log("开奖状态");
+            if (this.gamedata_list[this.period_number] == null) {
+                this.gamedata_list[this.period_number] = data;
+                this.gametime = data.rest_time;
+                this.playTiShiBetAni("游戏开奖");
+                this.view.txt_state.text = "开奖状态";
+                this.view.txt_res.text = "开奖结果:" + data.last_detail + " " + data.last_describe;
+                //
+                var arr_num = data.last_detail.split(",");
+                this.initPlaySaizi(arr_num);
+            }
+            this.updatemoney(data.deposit);
+        }
     };
     /**
      * 更新别人的下注信息
      * @param data
      */
     MainScene.prototype.updateBetListUI = function (data) {
+        var _this = this;
+        // console.log("betList", data);
+        // big: 20
+        // even: 0
+        // odd: 0
+        // small: 10
+        if (data.status != 0) {
+            console.log('updateBetListUI状态问题');
+            return;
+        }
+        this.initdesk(this.view.btn_1, -1, data.bet_amount.big);
+        this.initdesk(this.view.btn_2, -1, data.bet_amount.small);
+        this.initdesk(this.view.btn_3, -1, data.bet_amount.odd);
+        this.initdesk(this.view.btn_4, -1, data.bet_amount.even);
+        //
+        // console.log("betList", "桌面清理完毕");
+        var arr = data.data;
+        // console.log("betList", arr);
+        arr.forEach(function (value) {
+            var id = value.id;
+            //console.log("betList", id, this.gamebet_list[id]);
+            if (_this.gamebet_list[id] == null) {
+                _this.gamebet_list[id] = value;
+                _this.bet_pool.push(value);
+                // console.log("betList", "添加数据完毕", this.bet_pool.length);
+            }
+        });
     };
     MainScene.prototype.update = function () {
         this.view.txt_money.text = App.dataManger.vo.deposit.toString();
@@ -255,6 +352,10 @@ var MainScene = /** @class */ (function (_super) {
         });
         return promise;
     };
+    /**
+     * 播放塞子动画
+     * @param num
+     */
     MainScene.prototype.initPlaySaizi = function (num) {
         MainScene.addSkAni2("res/spine/sezi_1.sk", this.saizi_sprite, 0, 320, 400).then(function (value) {
             value.showSkinByIndex(num[0]);
