@@ -1,0 +1,23 @@
+{
+  "status": 0,
+  "message": "OK",
+  "data": {
+    "id": 502536,
+    "username": "phper1",
+    "nickname": "phper1",
+    "deposit": "199.00",
+    "phone": "",
+    "birthday": "1970-01-01",
+    "signature": "",
+    "avatar": "",
+    "ex_vip_time": "1970-01-01 00:00:01",
+    "api_token": "aefab9e287ea71cd4f4f94977dcffd50",
+    "bet_amount": [
+      "10.00",
+      "50.00",
+      "100.00",
+      "500.00",
+      "1000.00"
+    ]
+  }
+}

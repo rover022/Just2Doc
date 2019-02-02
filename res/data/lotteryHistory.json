@@ -1,0 +1,144 @@
+{
+  "status": 0,
+  "message": "OK",
+  "page": {
+    "total_page": 8,
+    "current_page": 1,
+    "page_size": 20
+  },
+  "data": [
+    {
+      "period_number": "第158期",
+      "due_time": "2019-02-01 04:35:55",
+      "result": 4,
+      "describe": "小双",
+      "detail": "3,5,2"
+    },
+    {
+      "period_number": "第157期",
+      "due_time": "2019-02-01 04:35:10",
+      "result": 2,
+      "describe": "大双",
+      "detail": "6,1,5"
+    },
+    {
+      "period_number": "第156期",
+      "due_time": "2019-02-01 04:34:25",
+      "result": 4,
+      "describe": "小双",
+      "detail": "6,1,1"
+    },
+    {
+      "period_number": "第155期",
+      "due_time": "2019-02-01 04:33:40",
+      "result": 2,
+      "describe": "大双",
+      "detail": "1,5,6"
+    },
+    {
+      "period_number": "第154期",
+      "due_time": "2019-02-01 04:32:55",
+      "result": 4,
+      "describe": "小双",
+      "detail": "2,3,1"
+    },
+    {
+      "period_number": "第153期",
+      "due_time": "2019-02-01 04:32:10",
+      "result": 3,
+      "describe": "小单",
+      "detail": "5,1,3"
+    },
+    {
+      "period_number": "第152期",
+      "due_time": "2019-02-01 04:31:25",
+      "result": 2,
+      "describe": "大双",
+      "detail": "6,6,6"
+    },
+    {
+      "period_number": "第151期",
+      "due_time": "2019-02-01 04:30:40",
+      "result": 2,
+      "describe": "大双",
+      "detail": "5,4,5"
+    },
+    {
+      "period_number": "第150期",
+      "due_time": "2019-02-01 04:29:55",
+      "result": 4,
+      "describe": "小双",
+      "detail": "6,2,2"
+    },
+    {
+      "period_number": "第149期",
+      "due_time": "2019-02-01 04:29:10",
+      "result": 1,
+      "describe": "大单",
+      "detail": "5,6,4"
+    },
+    {
+      "period_number": "第148期",
+      "due_time": "2019-02-01 04:28:25",
+      "result": 2,
+      "describe": "大双",
+      "detail": "2,4,6"
+    },
+    {
+      "period_number": "第147期",
+      "due_time": "2019-02-01 04:27:40",
+      "result": 1,
+      "describe": "大单",
+      "detail": "5,6,6"
+    },
+    {
+      "period_number": "第146期",
+      "due_time": "2019-02-01 04:26:55",
+      "result": 2,
+      "describe": "大双",
+      "detail": "6,6,6"
+    },
+    {
+      "period_number": "第145期",
+      "due_time": "2019-02-01 04:26:10",
+      "result": 2,
+      "describe": "大双",
+      "detail": "4,4,6"
+    },
+    {
+      "period_number": "第144期",
+      "due_time": "2019-02-01 04:25:25",
+      "result": 1,
+      "describe": "大单",
+      "detail": "3,6,6"
+    },
+    {
+      "period_number": "第143期",
+      "due_time": "2019-02-01 04:24:40",
+      "result": 4,
+      "describe": "小双",
+      "detail": "6,3,1"
+    },
+    {
+      "period_number": "第142期",
+      "due_time": "2019-02-01 04:23:55",
+      "result": 4,
+      "describe": "小双",
+      "detail": "2,4,2"
+    },
+    {
+      "period_number": "第141期",
+      "due_time": "2019-02-01 04:23:10",
+      "result": 3,
+      "describe": "小单",
+      "detail": "1,1,1"
+    },
+    {
+      "period_number": "第140期",
+      "due_time": "2019-02-01 04:22:25",
+      "result": 1,
+      "describe": "大单",
+      "detail": "6,6,5"
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "item_login": {
+    "name": "登录",
+    "url": "http://zb-api-ceshi.mekxfj.com/api/dice/login",
+    "test_data": "login.json"
+  },
+  "item_bet": {
+    "name": "下注",
+    "url": "http://zb-api-ceshi.mekxfj.com/api/dice/bet",
+    "test_data": "bet.json"
+  },
+  "item_betList": {
+    "name": "看别人下注列表",
+    "url": "http://zb-api-ceshi.mekxfj.com/api/dice/betList",
+    "test_data": "betList.json"
+  },
+  "item_betHistory": {
+    "name": "看自己下注历史",
+    "url": "http://zb-api-ceshi.mekxfj.com/api/dice/betHistory",
+    "test_data": "betHistory.json"
+  },
+  "item_lotteryHistory": {
+    "name": "开奖历史数据查询更多接口",
+    "url": "http://zb-api-ceshi.mekxfj.com/api/dice/lotteryHistory",
+    "test_data": "result.json"
+  },
+  "item_result": {
+    "name": "5秒一次的轮训接口",
+    "url": "http://zb-api-ceshi.mekxfj.com/api/dice/result",
+    "test_data": "result.json"
+  }
+}

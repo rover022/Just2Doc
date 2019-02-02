@@ -1,0 +1,12 @@
+{
+  "status": 0,
+  "message": "OK",
+  "data": {
+    "state": "2",
+    "message": "下注时间",
+    "last_result": 3,
+    "last_describe": "小单",
+    "last_detail": "3,1,1"
+  }
+}
+

@@ -1,0 +1,33 @@
+{
+  "status": 0,
+  "message": "OK",
+  "data": [
+    {
+      "due_time": "2019-02-01 12:13:16",
+      "period_number": 7,
+      "big": "300.00",
+      "small": 0,
+      "odd": "100.00",
+      "even": "100.00",
+      "prize": 0
+    },
+    {
+      "due_time": "2019-02-01 12:11:01",
+      "period_number": 5,
+      "big": "100.00",
+      "small": "150.00",
+      "odd": "150.00",
+      "even": "200.00",
+      "prize": 225
+    },
+    {
+      "due_time": "2019-02-01 09:47:01",
+      "period_number": 2,
+      "big": "200.00",
+      "small": "100.00",
+      "odd": "150.00",
+      "even": 0,
+      "prize": 225
+    }
+  ]
+}
