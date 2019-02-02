@@ -14,51 +14,27 @@ var __extends = (this && this.__extends) || (function () {
 var Skeleton = laya.ani.bone.Skeleton;
 var Templet = laya.ani.bone.Templet;
 var Sprite = laya.display.Sprite;
+var GButton = fairygui.GButton;
 var MainScene = /** @class */ (function (_super) {
     __extends(MainScene, _super);
     function MainScene() {
         var _this = _super.call(this) || this;
+        _this.selectM = 0;
+        _this.gametime = 5;
+        _this.game_state = -1;
+        /**
+         * 游戏所有的游戏记录
+         */
+        _this.gamedata_list = {};
         MainScene.scene = _this;
         return _this;
     }
     MainScene.prototype.init = function () {
         var _this = this;
-        App.dataManger.vo.api_token = MainScene.getOption("token");
-        console.log('游戏版本:', MainScene.VERSION);
-        console.log('token:', App.dataManger.vo.api_token);
-        App.netManger.send({}, App.dataManger.configvo.item_login.url, function (data) {
-            _this.initGame(data);
-        });
         var v = Bag.Scene_Main.createInstance();
         this.initUI(v);
-        // App.netManger.send({}, App.dataManger.configvo.item_bet.url, (data: any, a?: any) => {
-        //     console.log("数据:", data, a);
-        // }, ["多下点"]);
-        //
-        // App.netManger.send("", App.dataManger.configvo.item_bet.url, (data: any, a?: any) => {
-        //     console.log("数据:", data, a);
-        // }, ["多下点"]);
-        //
-    };
-    MainScene.prototype.initGame = function (data) {
-        if (data.status != 0) {
-            console.log("登录拉去失败", data);
-            return;
-        }
-        App.dataManger.vo.nickname = data.data.nickname;
-        App.dataManger.vo.deposit = data.data.deposit;
-        App.dataManger.vo.username = data.data.username;
-        App.dataManger.vo.bet_amount = data.data.bet_amount;
-        //
-        // App.dataManger.vo.deposit++;
-        var bitarr = data.data.bet_amount;
-        console.log("筹码:", App.dataManger.vo.bet_amount);
-        console.log("deposit:", App.dataManger.vo.deposit);
-        this.view.btn_0.onClick(this, this.betClick, [1]);
-        this.view.btn_1.onClick(this, this.betClick, [2]);
-        this.view.btn_2.onClick(this, this.betClick, [3]);
-        this.view.btn_3.onClick(this, this.betClick, [4]);
-        // this.view.ui_chouma.btn_0.title = App.dataManger.vo.bet_amount[0];
+        this.initHeGuang();
+        this.playOtherBetAni();
         this.view.btn_xiaozhu.onClick(this, function () {
             var m_w = new SceneSelfHistroy();
             App.show(m_w);
@@ -71,10 +47,138 @@ var MainScene = /** @class */ (function (_super) {
             var m_w = new SceneGameShuoMin();
             App.show(m_w);
         });
+        App.dataManger.vo.api_token = MainScene.getOption("token");
+        console.log('游戏版本:', MainScene.VERSION);
+        console.log('token:', App.dataManger.vo.api_token);
+        if (App.dataManger.vo.api_token == null || App.dataManger.vo.api_token.length < 2) {
+            console.log('token:you问题,');
+            this.playTiShiBetAni("token:有问题");
+            return;
+        }
+        App.netManger.send({}, App.dataManger.configvo.item_login.url, function (data) {
+            _this.initGame(data);
+        });
+    };
+    MainScene.prototype.initGame = function (data) {
+        if (data.status != 0) {
+            console.log("登录失败", data);
+            this.playTiShiBetAni("登录失败");
+            return;
+        }
+        App.dataManger.vo.nickname = data.data.nickname;
+        App.dataManger.vo.deposit = data.data.deposit;
+        App.dataManger.vo.username = data.data.username;
+        App.dataManger.vo.bet_amount = [];
+        //
+        // App.dataManger.vo.deposit++;
+        var bitarr = data.data.bet_amount;
+        bitarr.forEach(function (value) {
+            App.dataManger.vo.bet_amount.push(parseInt(value));
+        });
+        console.log("筹码:", App.dataManger.vo.bet_amount);
+        console.log("deposit:", App.dataManger.vo.deposit);
+        this.makeBetBtn(this.view.btn_1, 1);
+        this.makeBetBtn(this.view.btn_2, 2);
+        this.makeBetBtn(this.view.btn_3, 3);
+        this.makeBetBtn(this.view.btn_4, 4);
+        for (var i = 0; i < 5; i++) {
+            this.makeBetChouma(this.view.ui_chouma.getChild("btn_" + i).asButton, App.dataManger.vo.bet_amount[i]);
+        }
+        this.selectM = ~~bitarr[0];
         this.update();
-        this.displayListContainer.timer.loop(5000, this, this.updateGameState);
-        this.initHeGuang();
-        this.initPlaySaizi([6, 6, 6]);
+        this.displayListContainer.timer.loop(20000, this, this.updateGameState);
+        this.displayListContainer.timer.loop(1000, this, this.time_update);
+        // this.initPlaySaizi([6, 6, 6]);
+    };
+    MainScene.prototype.playOtherBetAni = function (_name, bet) {
+        if (_name === void 0) { _name = "某人"; }
+        if (bet === void 0) { bet = 100; }
+        var s1 = "押注:那个" + _name + "下注了" + bet + ",长笑一声哈哈!";
+        this.view.talk_labe1.title = s1;
+        // this.view.talk_labe1.t
+        this.view.t0.play(null, 1);
+    };
+    MainScene.prototype.playTiShiBetAni = function (_context) {
+        if (_context === void 0) { _context = "提示"; }
+        this.view.talk_labe1.title = _context;
+        // this.view.talk_labe1.t
+        this.view.t0.play(null, 1);
+    };
+    /**
+     * 给桌子加钱
+     * @param g_
+     * @param bet
+     * @param allnum
+     */
+    MainScene.prototype.initdesk = function (g_, bet, allnum) {
+        if (bet === void 0) { bet = -1; }
+        if (allnum === void 0) { allnum = -1; }
+        if (bet == 0 && allnum == 0) {
+            g_.data = 0;
+            g_.getChild("txt_m").text = "0";
+            g_.getChild("txt_n").text = "0";
+        }
+        if (allnum != -1) {
+            g_.getChild("txt_m").text = allnum.toString();
+        }
+        if (bet != -1) {
+            console.log(typeof g_.data);
+            console.log(typeof bet);
+            g_.data = g_.data + bet;
+            g_.getChild("txt_n").text = g_.data.toString();
+        }
+    };
+    //bet(1:大 2:小 3:单 4:双)
+    MainScene.prototype.makeBetBtn = function (btn, bet) {
+        var _this = this;
+        btn.data = 0;
+        btn.onClick(this, function () {
+            if (App.dataManger.vo.deposit < _this.selectM) {
+                _this.playTiShiBetAni("金钱不够了 哥们!");
+                return;
+            }
+            if (_this.game_state != 1) {
+                _this.playTiShiBetAni("没到下注状态 哥们!");
+                return;
+            }
+            App.netManger.send({
+                amount: _this.selectM,
+                bet: bet
+            }, App.dataManger.configvo.item_bet.url, function (data, _arg) {
+                if (data.status == 0) {
+                    var _num = _arg[0];
+                    console.log("成功下注", _num, typeof _num);
+                    App.dataManger.vo.deposit -= _num;
+                    _this.initdesk(btn, _num);
+                    _this.update();
+                }
+                else {
+                    _this.playTiShiBetAni("下注时间过了 哥们!");
+                    // if (data.status == 0) {
+                    //     let _num = _arg[0];
+                    //     console.log("成功下注", _num, typeof _num);
+                    //     App.dataManger.vo.deposit -= _num;
+                    //     this.initdesk(btn, _num);
+                    //     this.update()
+                    // }
+                }
+            }, [_this.selectM]);
+        });
+    };
+    MainScene.prototype.makeBetChouma = function (child, num) {
+        var _this = this;
+        var ini_m = (~~num);
+        child.title = ini_m.toString();
+        child.onClick(this, function (_n) {
+            _this.selectM = ini_m;
+            console.log("选择的筹码", _this.selectM);
+        }, [num]);
+    };
+    MainScene.prototype.time_update = function () {
+        this.view.label_txt.text = this.gametime.toString();
+        if (this.gametime > 0) {
+            this.gametime--;
+        }
     };
     /**
      * 跑时间计时器
@@ -103,12 +207,6 @@ var MainScene = /** @class */ (function (_super) {
     };
     MainScene.prototype.update = function () {
         this.view.txt_money.text = App.dataManger.vo.deposit.toString();
-    };
-    MainScene.prototype.betClick = function (src) {
-        console.log("下注点击:", src);
-        App.netManger.send("", App.dataManger.configvo.item_bet.url, function (data, a) {
-            console.log("数据:", data, a);
-        }, ["多下点"]);
     };
     MainScene.getOption = function (key) {
         if (window.location) {
@@ -186,9 +284,7 @@ var RogerSpine = /** @class */ (function (_super) {
         var _this = _super.call(this) || this;
         _this.mode = mode;
         _this.f_c = f_c;
-        _this.mActionIndex = 0;
         _this.mCurrIndex = 0;
-        _this.mCurrSkinIndex = 0;
         _this.mAniPath = url;
         _this.mFactory = new Templet();
         _this.mFactory.on(Laya.Event.COMPLETE, _this, _this.parseComplete);

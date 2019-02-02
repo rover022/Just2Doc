@@ -40,8 +40,8 @@ var SceneAllHistroy = /** @class */ (function (_super) {
                 s.txt_time.text = value.due_time;
                 s.txt_juhao.text = value.period_number;
                 s.txt_3.text = value.detail;
-                s.txt_4.text = value.describe;
-                s.txt_5.text = value.describe;
+                s.txt_4.text = _this.getDXDS(value.describe, "大", "小");
+                s.txt_5.text = _this.getDXDS(value.describe, "单", "双");
                 _this.view.list_all.addChild(s);
             });
         }
@@ -49,8 +49,19 @@ var SceneAllHistroy = /** @class */ (function (_super) {
             console.log(data);
         }
     };
+    SceneAllHistroy.prototype.getDXDS = function (_soure, _s, _other_s) {
+        if (_soure.indexOf(_s) != -1) {
+            return _s;
+        }
+        else {
+            return _other_s;
+        }
+    };
     return SceneAllHistroy;
 }(BaseGComponent));
+/**
+ * 查询个人历史
+ */
 var SceneSelfHistroy = /** @class */ (function (_super) {
     __extends(SceneSelfHistroy, _super);
     function SceneSelfHistroy() {
@@ -64,7 +75,6 @@ var SceneSelfHistroy = /** @class */ (function (_super) {
             _this.removeFromParent();
         });
         App.netManger.send({}, App.dataManger.configvo.item_betHistory.url, function (data) {
-            // console.log("数据:", data);
             _this.update(data);
         });
         this.view.list_my.removeChildren();
@@ -76,6 +86,15 @@ var SceneSelfHistroy = /** @class */ (function (_super) {
             var vo_arr = data.data;
             vo_arr.forEach(function (value) {
                 var s = Bag.item_2.createInstance();
+                var time_s = value.due_time;
+                s.txt_title.text = time_s.split(" ")[0];
+                s.txt_time.text = time_s.split(" ")[1];
+                s.txt_juhao.text = value.period_number + '局';
+                s.txt_big.text = parseInt(value.big) + "";
+                s.txt_small.text = parseInt(value.small) + "";
+                s.txt_odd.text = parseInt(value.odd) + "";
+                s.txt_even.text = parseInt(value.even) + "";
+                s.txt_prize.text = value.prize;
                 _this.view.list_my.addChild(s);
             });
         }

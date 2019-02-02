@@ -18,6 +18,11 @@ var NetManger = /** @class */ (function () {
     NetManger.prototype.send = function (data, url, callback, arg, responseType) {
         var _this = this;
         if (responseType === void 0) { responseType = "text"; }
+        if (App.dataManger.vo.api_token.length < 2) {
+            console.log("哥,还没登录呢!");
+            MainScene.scene.playTiShiBetAni("哥,还没登录呢!");
+            return;
+        }
         var xhr = new Laya.HttpRequest();
         xhr.http.timeout = 5000; //设置超时时间；
         xhr.once(Laya.Event.COMPLETE, this, function (data) {
