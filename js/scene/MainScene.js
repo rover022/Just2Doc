@@ -39,6 +39,7 @@ var MainScene = /** @class */ (function (_super) {
         var v = Bag.Scene_Main.createInstance();
         this.initUI(v);
         this.initHeGuang();
+        // this.playWinOrLost("niyingle.sk");
         // this.playOtherBetAni();
         this.view.btn_xiaozhu.onClick(this, function () {
             var m_w = new SceneSelfHistroy();
@@ -265,9 +266,25 @@ var MainScene = /** @class */ (function (_super) {
                 //
                 var arr_num = data.last_detail.split(",");
                 this.initPlaySaizi(arr_num);
+                //
+                if (data.last_prize > 0) {
+                    this.playWinOrLost("niyingle.sk");
+                }
+                if (data.last_prize < 0) {
+                    this.playWinOrLost("nishule.sk");
+                }
             }
             this.updatemoney(data.deposit);
         }
+    };
+    MainScene.prototype.playWinOrLost = function (src) {
+        var _this = this;
+        this.view.displayListContainer.timer.once(1500, this, function () {
+            MainScene.addSkAni2("res/spine/" + src, _this.saizi_sprite, 0, 320, 350)
+                .then(function (value) {
+                value.play(0, false);
+            });
+        });
     };
     /**
      * 更新别人的下注信息
