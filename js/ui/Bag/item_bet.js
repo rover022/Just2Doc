@@ -26,6 +26,7 @@ var Bag;
             _super.prototype.constructFromXML.call(this, xml);
             this.txt_m = (this.getChild("txt_m"));
             this.txt_n = (this.getChild("txt_n"));
+            this.txt_m1 = (this.getChild("txt_m1"));
         };
         item_bet.URL = "ui://rbw1tv9tmee5s";
         return item_bet;

@@ -374,15 +374,15 @@ var MainScene = /** @class */ (function (_super) {
      * @param num
      */
     MainScene.prototype.initPlaySaizi = function (num) {
-        MainScene.addSkAni2("res/spine/sezi_1.sk", this.saizi_sprite, 0, 320, 400).then(function (value) {
+        MainScene.addSkAni2("res/spine/sezi_1.sk", this.saizi_sprite, 0, 320, 380).then(function (value) {
             value.showSkinByIndex(num[0]);
             value.play(0, false);
         });
-        MainScene.addSkAni2("res/spine/sezi_2.sk", this.saizi_sprite, 0, 320, 400).then(function (value) {
+        MainScene.addSkAni2("res/spine/sezi_2.sk", this.saizi_sprite, 0, 320, 380).then(function (value) {
             value.showSkinByIndex(num[1]);
             value.play(0, false);
         });
-        MainScene.addSkAni2("res/spine/sezi_3.sk", this.saizi_sprite, 0, 320, 400).then(function (value) {
+        MainScene.addSkAni2("res/spine/sezi_3.sk", this.saizi_sprite, 0, 320, 380).then(function (value) {
             value.showSkinByIndex(num[2]);
             value.play(0, false);
         });
