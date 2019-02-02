@@ -390,7 +390,8 @@ var MainScene = /** @class */ (function (_super) {
     MainScene.prototype.initHeGuang = function () {
         MainScene.addSkAni2("res/spine/heguanXiao3.sk", this.view.ui_heguang.displayListContainer, 0, 320, 275);
         this.saizi_sprite = new Sprite();
-        this.view.ui_heguang.displayListContainer.addChild(this.saizi_sprite);
+        this.saizi_sprite.mouseEnabled = false;
+        this.view.displayListContainer.addChild(this.saizi_sprite);
     };
     MainScene.VERSION = '1.0.1';
     return MainScene;
