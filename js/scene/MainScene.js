@@ -39,7 +39,7 @@ var MainScene = /** @class */ (function (_super) {
         var v = Bag.Scene_Main.createInstance();
         this.initUI(v);
         this.initHeGuang();
-        this.loadAsset();
+        // this.loadAsset();
         // this.playWinOrLost("niyingle.sk");
         // this.playOtherBetAni();
         this.view.btn_xiaozhu.onClick(this, function () {
@@ -224,6 +224,7 @@ var MainScene = /** @class */ (function (_super) {
      * @param data
      */
     MainScene.prototype.updateResult = function (vo) {
+        console.log("updateResult:", vo);
         if (vo.status != 0) {
             this.playTiShiBetAni("游戏状态错误");
             return;
@@ -237,9 +238,6 @@ var MainScene = /** @class */ (function (_super) {
         // console.log(data.state);
         if (this.game_state == 1) {
             console.log("准备状态");
-            // if (this.gamereadly_list[this.period_number] = null) {
-            //     this.gamereadly_list[this.period_number] = data;
-            // }
             this.gametime = 0;
             this.view.txt_state.text = "准备状态";
         }
@@ -257,7 +255,7 @@ var MainScene = /** @class */ (function (_super) {
         }
         if (this.game_state == 3) {
             //开奖状态
-            // console.log("开奖状态");
+            console.log("开奖状态");
             if (this.gamedata_list[this.period_number] == null) {
                 this.gamedata_list[this.period_number] = data;
                 this.gametime = data.rest_time;
