@@ -39,6 +39,7 @@ var MainScene = /** @class */ (function (_super) {
         var v = Bag.Scene_Main.createInstance();
         this.initUI(v);
         this.initHeGuang();
+        this.loadAsset();
         // this.playWinOrLost("niyingle.sk");
         // this.playOtherBetAni();
         this.view.btn_xiaozhu.onClick(this, function () {
@@ -392,6 +393,17 @@ var MainScene = /** @class */ (function (_super) {
         this.saizi_sprite = new Sprite();
         this.saizi_sprite.mouseEnabled = false;
         this.view.ui_empty.displayListContainer.addChild(this.saizi_sprite);
+    };
+    MainScene.prototype.loadAsset = function () {
+        Laya.loader.load([
+            "res/spine/sezi_1.sk",
+            "res/spine/sezi_1.png",
+            "res/spine/sezi_2.sk",
+            "res/spine/sezi_2.png",
+            "res/spine/sezi_3.sk",
+            "res/spine/sezi_3.png"
+        ], Handler.create(this, function () {
+        }));
     };
     MainScene.VERSION = '1.0.1';
     return MainScene;
